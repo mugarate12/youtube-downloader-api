@@ -1,5 +1,5 @@
 {
-  "name": "youtube-music-downloader-api",
+  "name": "youtube-downloader-api",
   "version": "1.0.0",
   "description": "API para downloads de músicas do youtube.",
   "main": "./src/server.js",
