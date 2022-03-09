@@ -1,0 +1,21 @@
+{
+  "name": "youtube-music-downloader-api",
+  "version": "1.0.0",
+  "description": "API para downloads de músicas do youtube.",
+  "main": "./src/server.js",
+  "scripts": {
+    "dev:server": "nodemon ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "..."
+  },
+  "author": "Guilherme Azevedo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
