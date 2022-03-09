@@ -13,7 +13,8 @@
   "author": "Guilherme Azevedo",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "youtube-dl": "^3.4.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
