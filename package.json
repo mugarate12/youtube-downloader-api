@@ -13,8 +13,12 @@
   "author": "Guilherme Azevedo",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
+    "connect-timeout": "^1.9.0",
     "express": "^4.17.3",
-    "youtube-dl": "^3.4.1"
+    "youtube-dl": "^3.4.1",
+    "youtube-dl-exec": "^2.0.7",
+    "youtube-dl-wrap": "^2.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

@@ -1,25 +1,58 @@
 const express = require('express')
-const youtubedl = require('youtube-dl')
+// const youtubedl = require('youtube-dl')
+const youtubedl = require('youtube-dl-exec')
 const fs = require('fs')
+const path = require('path')
+const axios = require('axios')
 
 const router = express.Router()
 
-router.get('/download', async (req, res) => {
+router.post('/download', async (req, res) => {
   const { link } = req.body
 
-  const video = youtubedl(
-    link,
-    ['--format=18'],
-    { cwd: __dirname }
-  )
-
-  await video.on('info', function(info) {
-    console.log('Download iniciado!')
-    console.log(`nome do arquivo: ${info._filename}`)
-    console.log(`Tamanho: ${info.size}`)
+  await youtubedl(link, {
+    dumpSingleJson: true,
+    noWarnings: true,
+    noCallHome: true,
+    noCheckCertificate: true,
+    preferFreeFormats: true,
+    youtubeSkipDashManifest: true,
+    referer: link
   })
+    .then(async (output) => {
+      let format = '244 - 640x480 (480p)'
+      const formatsArray = output['formats']
+      let url = ''
+      // console.log(formatsArray);
 
-  await video.pipe(fs.createWriteStream('myvideo.mp4'))
+      formatsArray.forEach(element => {
+        if (element['format'] === format) {
+          url = element['url']
+        }
+      })
+      
+      console.log('To baixando!', url);
+      const data = await axios.get(url, { responseType: 'arraybuffer' })
+        .then(response => {
+          return response.data
+        })
+        .catch(error => console.log('deu errado'))
+
+      if (!!data) {
+        const filename = `./meuvideo.mp4`
+
+        fs.writeFileSync(filename, data, 'binary')
+      }
+    })
+
+  const filePath = path.resolve(__dirname, '..', 'meuvideo.mp4')
+  const file = fs.readFileSync(filePath)
+  const filename = path.basename(filePath)
+
+  return res
+    .set('Content-Type', 'application/mp4')
+    .set('Content-Disposition', `attachment; filename=${filename}`)
+    .send(file)
 })
 
 module.exports = router
